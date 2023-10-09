@@ -17,3 +17,5 @@ const initdb = async() => {
 };
 
 initdb();
+
+// completed
