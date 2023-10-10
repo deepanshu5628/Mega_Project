@@ -1,35 +1,34 @@
 <%- layout("/layouts/boilderplate.ejs") %>
 
-    <body>
-        <h3>Listing Detail: </h3>
-        <ul>
 
-            <li>
-                <%= listing.title %>
-            </li>
-            <li>
-                <%=listing.description  %>
-            </li>
+    <h3>Listing Detail: </h3>
+    <ul>
 
-            <li>
-                &#8377
-                <%=listing.price.toLocaleString("en-IN")  %>
-                    <!-- made the no to style in indian currency  -->
-            </li>
-            <li>
-                <%= listing.location %>
-            </li>
-            <li>
-                <%= listing.country %>
-            </li>
+        <li>
+            <%= listing.title %>
+        </li>
+        <li>
+            <%=listing.description  %>
+        </li>
 
-        </ul>
-        <br>
-        <a href="/listings/<%=listing._id%>">   Edit </a>
-        <br>
+        <li>
+            &#8377
+            <%=listing.price.toLocaleString("en-IN")  %>
+                <!-- made the no to style in indian currency  -->
+        </li>
+        <li>
+            <%= listing.location %>
+        </li>
+        <li>
+            <%= listing.country %>
+        </li>
 
-        <br>
-        <form method="post" action="/listings/<%=listing._id%>?_method=DELETE">
-            <button>Delete</button>
-        </form>
-    </body>
+    </ul>
+    <br>
+    <a href="/listings/<%=listing._id%>">   Edit </a>
+    <br>
+
+    <br>
+    <form method="post" action="/listings/<%=listing._id%>?_method=DELETE">
+        <button>Delete</button>
+    </form>

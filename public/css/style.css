@@ -1,6 +1,12 @@
-/* body {
-    background-color: pink;
-} */
+body {
+    /* background-color: pink; */
+    font-family: 'Plus Jakarta Sans', sans-serif !important;
+}
+
+.main_container {
+    padding-left: 2.5rem;
+    padding-right: 2.5rem;
+}
 
 
 /* navbar styling */
@@ -73,3 +79,38 @@
 
 
 /* footer styling completed */
+
+
+/* styling for cards */
+
+.card {
+    border: none !important;
+    margin-bottom: 2rem;
+}
+
+.card-img-top {
+    border-radius: 1rem !important;
+    width: 100% !important;
+    object-fit: cover !important;
+}
+
+.card-body {
+    padding: 0 !important;
+}
+
+.card-text p {
+    font-weight: bold !important;
+}
+
+.listing-links {
+    text-decoration: none;
+}
+
+.card-img-overlay {
+    opacity: 0;
+}
+
+.card-img-overlay:hover {
+    opacity: 0.2;
+    background-color: white;
+}
