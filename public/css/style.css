@@ -128,3 +128,28 @@ body {
 .edit-btn {
     background-color: #fe424d !important;
 }
+
+
+/* show page */
+
+.btns {
+    display: flex;
+}
+
+.btns button {
+    margin-left: 1rem;
+}
+
+
+/* update btn */
+
+.update-btn {
+    background-color: green !important;
+}
+
+
+/* delter btn */
+
+.delete-btn {
+    background-color: black !important;
+}
