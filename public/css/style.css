@@ -33,3 +33,43 @@
 
 
 /* footer styling  */
+
+.f-info {
+    display: flex;
+    height: 8rem;
+    background-color: #ebebeb;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: space-evenly;
+    text-align: center;
+    font-size: 1.2rem;
+}
+
+.f-info-links,
+.f-info-brand,
+.f-info-socials {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+
+/* removing underline  */
+
+.f-info-links a {
+    text-decoration: none;
+    color: #222222;
+}
+
+.f-info-links a:hover {
+    text-decoration: underline;
+}
+
+.f-info-socials i {
+    font-size: 1.23rem;
+    margin-right: 1rem;
+}
+
+
+/* footer styling completed */
