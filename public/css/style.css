@@ -19,7 +19,8 @@ body {
 /* setting the height of navbar  */
 
 .navbar {
-    height: 5rem;
+    height: 4rem;
+    /* from 5 rem to 4 rem */
     background-color: white;
 }
 
@@ -46,7 +47,8 @@ body {
 
 .f-info {
     display: flex;
-    height: 8rem;
+    height: 6rem;
+    /* from 8 rem */
     background-color: #ebebeb;
     flex-wrap: wrap;
     justify-content: center;
@@ -120,8 +122,9 @@ body {
 }
 
 
-/* new page styleing */
+/* new page styleing nd edit page styling */
 
-.add-btn {
+.add-btn,
+.edit-btn {
     background-color: #fe424d !important;
 }
