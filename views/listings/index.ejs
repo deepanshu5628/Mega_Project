@@ -1,12 +1,7 @@
-<% layout("/layouts/boilderplate.ejs") %>
+<%- layout("/layouts/boilderplate.ejs") %>
 
     <body>
         <h3>All Listings</h3>
-
-        <form action="/listings/new" method="get">
-            <button>Create New Post</button>
-        </form>
-
         <ul>
             <% for (let listings of alllistings){ %>
                 <li>
