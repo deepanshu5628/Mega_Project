@@ -1,11 +1,15 @@
 body {
     /* background-color: pink; */
     font-family: 'Plus Jakarta Sans', sans-serif !important;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
 }
 
 .main_container {
     padding-left: 2.5rem;
     padding-right: 2.5rem;
+    flex: 1;
 }
 
 
@@ -113,4 +117,11 @@ body {
 .card-img-overlay:hover {
     opacity: 0.2;
     background-color: white;
+}
+
+
+/* new page styleing */
+
+.add-btn {
+    background-color: #fe424d !important;
 }
