@@ -1,0 +1,155 @@
+body {
+    /* background-color: pink; */
+    font-family: 'Plus Jakarta Sans', sans-serif !important;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+.main_container {
+    padding-left: 2.5rem;
+    padding-right: 2.5rem;
+    flex: 1;
+}
+
+
+/* navbar styling */
+
+
+/* setting the height of navbar  */
+
+.navbar {
+    height: 4rem;
+    /* from 5 rem to 4 rem */
+    background-color: white;
+}
+
+
+/* setting color and size of compass  icon  */
+
+.fa-compass {
+    color: #fe424d;
+    font-size: 2rem;
+}
+
+
+/* using important to make override the bootstrap styling  */
+
+.nav-link {
+    color: #222222 !important;
+}
+
+
+/* navbar styling completed */
+
+
+/* footer styling  */
+
+.f-info {
+    display: flex;
+    height: 6rem;
+    /* from 8 rem */
+    background-color: #ebebeb;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: space-evenly;
+    text-align: center;
+    font-size: 1.2rem;
+}
+
+.f-info-links,
+.f-info-brand,
+.f-info-socials {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+
+/* removing underline  */
+
+.f-info-links a {
+    text-decoration: none;
+    color: #222222;
+}
+
+.f-info-links a:hover {
+    text-decoration: underline;
+}
+
+.f-info-socials i {
+    font-size: 1.23rem;
+    margin-right: 1rem;
+}
+
+
+/* footer styling completed */
+
+
+/* styling for cards */
+
+.card {
+    border: none !important;
+    margin-bottom: 2rem;
+}
+
+.card-img-top {
+    border-radius: 1rem !important;
+    width: 100% !important;
+    object-fit: cover !important;
+}
+
+.card-body {
+    padding: 0 !important;
+}
+
+.card-text p {
+    font-weight: bold !important;
+}
+
+.listing-links {
+    text-decoration: none;
+}
+
+.card-img-overlay {
+    opacity: 0;
+}
+
+.card-img-overlay:hover {
+    opacity: 0.2;
+    background-color: white;
+}
+
+
+/* new page styleing nd edit page styling */
+
+.add-btn,
+.edit-btn {
+    background-color: #fe424d !important;
+}
+
+
+/* show page */
+
+.btns {
+    display: flex;
+}
+
+.btns button {
+    margin-left: 1rem;
+}
+
+
+/* update btn */
+
+.update-btn {
+    background-color: green !important;
+}
+
+
+/* delter btn */
+
+.delete-btn {
+    background-color: black !important;
+}

@@ -20,7 +20,11 @@ app.get("/", (req, res) => {
 app.set("view engine", "ejs");
 const path = require("path");
 app.set("views", path.join(__dirname, "/views"));
-
+// requring ejs mate
+const ejsMate = require("ejs-mate");
+app.engine("ejs", ejsMate);
+// to use static files
+app.use(express.static(path.join(__dirname, "/public")));
 // requring database
 const mongoose = require("mongoose");
 // requiring schema & collectoin
@@ -127,6 +131,7 @@ app.delete("/listings/:id", async(req, res) => {
     let deltedid = await Listing.findByIdAndDelete(id);
     res.redirect("/listings");
 })
+
 
 
 
