@@ -40,7 +40,13 @@ main()
     .catch((err) => {
         console.log("db connection err", err);
     });
+// 
 
+// error handling 
+// requireing custom err class 
+const ExpressError = require("./utils/ExpressError");
+// requiring wrap async to hadle error's 
+const wrapasync = require("./utils/wrapasync");
 
 // app functionality
 
@@ -64,18 +70,18 @@ main()
 // writing crud api's 
 
 // Index route
-app.get("/listings", async(req, res) => {
+app.get("/listings", wrapasync(async(req, res) => {
     let alllistings = await Listing.find({});
     // res.send(alllistings);
     res.render("listings/index.ejs", { alllistings });
-})
+}));
 
 // show route
-app.get("/listings/show/:id", async(req, res) => {
+app.get("/listings/show/:id", wrapasync(async(req, res) => {
     let { id } = req.params;
     let listing = await Listing.findById(id);
     res.render("listings/show.ejs", { listing });
-})
+}));
 
 // new button
 app.get("/listings/new", (req, res) => {
@@ -83,7 +89,7 @@ app.get("/listings/new", (req, res) => {
 })
 
 // create Route
-app.post("/listings", async(req, res) => {
+app.post("/listings", wrapasync(async(req, res, next) => {
     let { title, description, image, price, location, country } = req.body;
     let newlisting = new Listing({
         title: title,
@@ -94,48 +100,57 @@ app.post("/listings", async(req, res) => {
         country: country
     });
     await newlisting.save()
-        .then(() => console.log("new data is saved to db"))
-        .catch((err) => console.log("err is occured while adding  new data"));
+        .then(() => {
+            console.log("data is sabed");
+        });
+
     res.redirect("/listings");
-});
+}));
 
 
 // edit button 
-app.get("/listings/:id", async(req, res) => {
+app.get("/listings/:id", wrapasync(async(req, res) => {
     let { id } = req.params;
     let listing = await Listing.findById(id);
     res.render("listings/edit.ejs", { listing });
-})
+}));
 
 // update route
-app.patch("/listings/:id", async(req, res) => {
+app.patch("/listings/:id", wrapasync(async(req, res) => {
     // console.log("patch req is working");
     let { id } = req.params;
     let { title, description, image, price, location, country } = req.body;
     let updatedlist = await Listing.findByIdAndUpdate(id, {
-            title: title,
-            description: description,
-            image: image,
-            price: price,
-            location: location,
-            country: country
-        }).then(() => console.log("new data is updated "))
-        .catch((err) => console.log("err in updateing data"));
+        title: title,
+        description: description,
+        image: image,
+        price: price,
+        location: location,
+        country: country
+    }, { runValidators: true }).then(() => console.log("data is updated"));
+
     res.redirect("/listings");
-});
+}));
 
 
 // Delete route
-app.delete("/listings/:id", async(req, res) => {
+app.delete("/listings/:id", wrapasync(async(req, res) => {
     let { id } = req.params;
     let deltedid = await Listing.findByIdAndDelete(id);
     res.redirect("/listings");
+}));
+
+
+
+// custom err handler
+app.use((err, req, res, next) => {
+    let { status = 500, message = "unknwn err occured" } = err;
+    // console.log(err);
+    res.render("listings/err.ejs", { err });
+    // res.status(status).send(message);
 })
 
-
-
-
-// defining middleware's to handele error if page is not found
+// defining middleware's to handele page is not found
 app.use((req, res) => {
     res.send("page not found");
 })

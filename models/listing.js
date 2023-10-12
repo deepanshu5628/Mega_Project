@@ -7,7 +7,7 @@ const ListingSchema = new mongoose.Schema({
     },
     description: {
         type: String,
-        required: true
+        required: true,
     },
     image: {
         type: String,
@@ -17,7 +17,9 @@ const ListingSchema = new mongoose.Schema({
     },
     price: {
         type: Number,
-        required: true
+        required: true,
+        min: 10,
+        max: 10000,
     },
     location: {
         type: String,
