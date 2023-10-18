@@ -29,7 +29,7 @@ app.use(express.static(path.join(__dirname, "/public")));
 const mongoose = require("mongoose");
 // requiring schema & collectoin
 const Listing = require("./models/listing");
-const { count } = require("console");
+const review = require("./models/review");
 // connecting database 
 async function main() {
     await mongoose.connect("mongodb://127.0.0.1:27017/wanderlust");
@@ -79,7 +79,7 @@ app.get("/listings", wrapasync(async(req, res) => {
 // show route
 app.get("/listings/show/:id", wrapasync(async(req, res) => {
     let { id } = req.params;
-    let listing = await Listing.findById(id);
+    let listing = await Listing.findById(id).populate("reviews");
     res.render("listings/show.ejs", { listing });
 }));
 
@@ -140,6 +140,31 @@ app.delete("/listings/:id", wrapasync(async(req, res) => {
     res.redirect("/listings");
 }));
 
+// api for review's 
+
+// to post a review 
+app.post("/listings/:id/review", wrapasync(async(req, res) => {
+    let { id } = req.params;
+    let list = await Listing.findById(id);
+    let { comment, rating } = req.body;
+    let newrev = new review({
+        rating: rating,
+        comment: comment,
+    });
+    list.reviews.push(newrev);
+    await newrev.save();
+    await list.save();
+    console.log("review saved");
+    res.redirect(`/listings/show/${id}`);
+}));
+
+// to delete a review 
+app.delete("/listings/:id1/review/:id2", wrapasync(async(req, res) => {
+    let { id1, id2 } = req.params;
+    let list = await Listing.findByIdAndUpdate(id1, { $pull: { reviews: id2 } });
+    let delreview = await review.findByIdAndDelete(id2);
+    res.redirect(`/listings/show/${id1}`);
+}));
 
 
 // custom err handler
