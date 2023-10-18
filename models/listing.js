@@ -29,6 +29,10 @@ const ListingSchema = new mongoose.Schema({
         type: String,
         required: true
     },
+    reviews: [{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "review"
+    }, ],
 });
 const Listing = mongoose.model("Listing", ListingSchema);
 module.exports = Listing;
