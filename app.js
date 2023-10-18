@@ -79,7 +79,7 @@ app.get("/listings", wrapasync(async(req, res) => {
 // show route
 app.get("/listings/show/:id", wrapasync(async(req, res) => {
     let { id } = req.params;
-    let listing = await Listing.findById(id);
+    let listing = await Listing.findById(id).populate("reviews");
     res.render("listings/show.ejs", { listing });
 }));
 
@@ -141,7 +141,9 @@ app.delete("/listings/:id", wrapasync(async(req, res) => {
 }));
 
 // api for review's 
-app.post("/listings/:id/review", async(req, res) => {
+
+// to post a review 
+app.post("/listings/:id/review", wrapasync(async(req, res) => {
     let { id } = req.params;
     let list = await Listing.findById(id);
     let { comment, rating } = req.body;
@@ -154,8 +156,15 @@ app.post("/listings/:id/review", async(req, res) => {
     await list.save();
     console.log("review saved");
     res.redirect(`/listings/show/${id}`);
-})
+}));
 
+// to delete a review 
+app.delete("/listings/:id1/review/:id2", wrapasync(async(req, res) => {
+    let { id1, id2 } = req.params;
+    let list = await Listing.findByIdAndUpdate(id1, { $pull: { reviews: id2 } });
+    let delreview = await review.findByIdAndDelete(id2);
+    res.redirect(`/listings/show/${id1}`);
+}));
 
 
 // custom err handler
