@@ -27,9 +27,9 @@ app.engine("ejs", ejsMate);
 app.use(express.static(path.join(__dirname, "/public")));
 // requring database
 const mongoose = require("mongoose");
-// requiring schema & collectoin
-const Listing = require("./models/listing");
-const review = require("./models/review");
+// // requiring schema & collectoin
+// const Listing = require("./models/listing");
+// const review = require("./models/review");
 // connecting database 
 async function main() {
     await mongoose.connect("mongodb://127.0.0.1:27017/wanderlust");
@@ -68,103 +68,11 @@ const wrapasync = require("./utils/wrapasync");
 
 
 // writing crud api's 
-
-// Index route
-app.get("/listings", wrapasync(async(req, res) => {
-    let alllistings = await Listing.find({});
-    // res.send(alllistings);
-    res.render("listings/index.ejs", { alllistings });
-}));
-
-// show route
-app.get("/listings/show/:id", wrapasync(async(req, res) => {
-    let { id } = req.params;
-    let listing = await Listing.findById(id).populate("reviews");
-    res.render("listings/show.ejs", { listing });
-}));
-
-// new button
-app.get("/listings/new", (req, res) => {
-    res.render("listings/new.ejs");
-})
-
-// create Route
-app.post("/listings", wrapasync(async(req, res, next) => {
-    let { title, description, image, price, location, country } = req.body;
-    let newlisting = new Listing({
-        title: title,
-        description: description,
-        image: image,
-        price: price,
-        location: location,
-        country: country
-    });
-    await newlisting.save()
-        .then(() => {
-            console.log("data is sabed");
-        });
-
-    res.redirect("/listings");
-}));
-
-
-// edit button 
-app.get("/listings/:id", wrapasync(async(req, res) => {
-    let { id } = req.params;
-    let listing = await Listing.findById(id);
-    res.render("listings/edit.ejs", { listing });
-}));
-
-// update route
-app.patch("/listings/:id", wrapasync(async(req, res) => {
-    // console.log("patch req is working");
-    let { id } = req.params;
-    let { title, description, image, price, location, country } = req.body;
-    let updatedlist = await Listing.findByIdAndUpdate(id, {
-        title: title,
-        description: description,
-        image: image,
-        price: price,
-        location: location,
-        country: country
-    }, { runValidators: true }).then(() => console.log("data is updated"));
-
-    res.redirect("/listings");
-}));
-
-
-// Delete route
-app.delete("/listings/:id", wrapasync(async(req, res) => {
-    let { id } = req.params;
-    let deltedid = await Listing.findByIdAndDelete(id);
-    res.redirect("/listings");
-}));
-
+const listingroute = require("./routes/listing");
+app.use("/listings", listingroute);
 // api for review's 
-
-// to post a review 
-app.post("/listings/:id/review", wrapasync(async(req, res) => {
-    let { id } = req.params;
-    let list = await Listing.findById(id);
-    let { comment, rating } = req.body;
-    let newrev = new review({
-        rating: rating,
-        comment: comment,
-    });
-    list.reviews.push(newrev);
-    await newrev.save();
-    await list.save();
-    console.log("review saved");
-    res.redirect(`/listings/show/${id}`);
-}));
-
-// to delete a review 
-app.delete("/listings/:id1/review/:id2", wrapasync(async(req, res) => {
-    let { id1, id2 } = req.params;
-    let list = await Listing.findByIdAndUpdate(id1, { $pull: { reviews: id2 } });
-    let delreview = await review.findByIdAndDelete(id2);
-    res.redirect(`/listings/show/${id1}`);
-}));
+const reviewrouter = require("./routes/review");
+app.use("/listings/:id/review", reviewrouter);
 
 
 // custom err handler
