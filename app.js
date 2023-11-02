@@ -30,6 +30,15 @@ const mongoose = require("mongoose");
 // // requiring schema & collectoin
 // const Listing = require("./models/listing");
 // const review = require("./models/review");
+
+// requiring session 
+const session = require("express-session");
+app.use(session({
+    secret: "supersecret",
+    resave: false,
+    saveUninitialized: true,
+}));
+
 // connecting database 
 async function main() {
     await mongoose.connect("mongodb://127.0.0.1:27017/wanderlust");
@@ -40,13 +49,7 @@ main()
     .catch((err) => {
         console.log("db connection err", err);
     });
-// 
 
-// error handling 
-// requireing custom err class 
-const ExpressError = require("./utils/ExpressError");
-// requiring wrap async to hadle error's 
-const wrapasync = require("./utils/wrapasync");
 
 // app functionality
 
@@ -67,7 +70,15 @@ const wrapasync = require("./utils/wrapasync");
 // })
 
 
-// writing crud api's 
+// main code 
+
+// error handling 
+// requireing custom err class 
+const ExpressError = require("./utils/ExpressError");
+// requiring wrap async to hadle error's 
+const wrapasync = require("./utils/wrapasync");
+
+// writing crud api's  routes 
 const listingroute = require("./routes/listing");
 app.use("/listings", listingroute);
 // api for review's 
