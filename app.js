@@ -38,6 +38,15 @@ app.use(session({
     resave: false,
     saveUninitialized: true,
 }));
+// requireing flash 
+const flash = require("connect-flash");
+app.use(flash());
+
+app.use((req, res, next) => {
+    res.locals.succ = req.flash("success");
+    res.locals.err = req.flash("error")
+    next();
+})
 
 // connecting database 
 async function main() {
