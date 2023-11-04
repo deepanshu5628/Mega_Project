@@ -2,6 +2,8 @@ const express = require("express");
 const router = express.Router();
 const wrapasync = require("../utils/wrapasync");
 const Listing = require("../models/listing");
+// const passport = require("passport");
+const islogedin = require("../middleware");
 
 
 
@@ -25,12 +27,12 @@ router.get("/show/:id", wrapasync(async(req, res) => {
 }));
 
 // new button
-router.get("/new", (req, res) => {
+router.get("/new", islogedin, (req, res) => {
     res.render("listings/new.ejs");
 })
 
 // create Route
-router.post("/", wrapasync(async(req, res, next) => {
+router.post("/", islogedin, wrapasync(async(req, res, next) => {
     let { title, description, image, price, location, country } = req.body;
     let newlisting = new Listing({
         title: title,
@@ -50,14 +52,14 @@ router.post("/", wrapasync(async(req, res, next) => {
 
 
 // edit button 
-router.get("/:id", wrapasync(async(req, res) => {
+router.get("/:id", islogedin, wrapasync(async(req, res) => {
     let { id } = req.params;
     let listing = await Listing.findById(id);
     res.render("listings/edit.ejs", { listing });
 }));
 
 // update route
-router.patch("/:id", wrapasync(async(req, res) => {
+router.patch("/:id", islogedin, wrapasync(async(req, res) => {
     // console.log("patch req is working");
     let { id } = req.params;
     let { title, description, image, price, location, country } = req.body;
@@ -75,7 +77,7 @@ router.patch("/:id", wrapasync(async(req, res) => {
 
 
 // Delete route
-router.delete("/:id", wrapasync(async(req, res) => {
+router.delete("/:id", islogedin, wrapasync(async(req, res) => {
     let { id } = req.params;
     let deltedid = await Listing.findByIdAndDelete(id);
     req.flash("success", "deleted Successfully")

@@ -42,9 +42,22 @@ app.use(session({
 const flash = require("connect-flash");
 app.use(flash());
 
+// authincation part 
+const user = require("./models/user");
+const passport = require("passport");
+const LocalStrategy = require("passport-local");
+
+app.use(passport.initialize());
+app.use(passport.session());
+passport.use(new LocalStrategy(user.authenticate()));
+passport.serializeUser(user.serializeUser());
+passport.deserializeUser(user.deserializeUser());
+
+
 app.use((req, res, next) => {
     res.locals.succ = req.flash("success");
     res.locals.err = req.flash("error")
+    res.locals.curruser = req.user;
     next();
 })
 
@@ -81,6 +94,8 @@ main()
 
 // main code 
 
+
+
 // error handling 
 // requireing custom err class 
 const ExpressError = require("./utils/ExpressError");
@@ -93,6 +108,9 @@ app.use("/listings", listingroute);
 // api for review's 
 const reviewrouter = require("./routes/review");
 app.use("/listings/:id/review", reviewrouter);
+// api for users.js router
+const userroute = require("./routes/user");
+app.use("/", userroute);
 
 
 // custom err handler
