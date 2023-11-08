@@ -5,9 +5,10 @@ const router = express.Router({ mergeParams: true });
 const wrapasync = require("../utils/wrapasync");
 const Listing = require("../models/listing");
 const review = require("../models/review");
+const { islogedin, isreviewowner } = require("../middleware");
 
 
-router.post("/", wrapasync(async(req, res) => {
+router.post("/", islogedin, wrapasync(async(req, res) => {
     let { id } = req.params;
     let list = await Listing.findById(id);
     let { comment, rating } = req.body;
@@ -15,6 +16,7 @@ router.post("/", wrapasync(async(req, res) => {
         rating: rating,
         comment: comment,
     });
+    newrev.createdBy = req.user._id
     list.reviews.push(newrev);
     await newrev.save();
     await list.save();
@@ -24,10 +26,10 @@ router.post("/", wrapasync(async(req, res) => {
 }));
 
 // to delete a review 
-router.delete("/:id2", wrapasync(async(req, res) => {
-    let { id, id2 } = req.params;
-    let list = await Listing.findByIdAndUpdate(id, { $pull: { reviews: id2 } });
-    let delreview = await review.findByIdAndDelete(id2);
+router.delete("/:reviewid", islogedin, isreviewowner, wrapasync(async(req, res) => {
+    let { id, reviewid } = req.params;
+    let list = await Listing.findByIdAndUpdate(id, { $pull: { reviews: reviewid } });
+    let delreview = await review.findByIdAndDelete(reviewid);
     req.flash("success", "Review Deleted");
     res.redirect(`/listings/show/${id}`);
 }));
