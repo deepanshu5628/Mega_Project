@@ -16,6 +16,17 @@ const initdb = async() => {
     console.log("sample data is sabed");
 };
 
-initdb();
+// initdb();
 
 // completed
+
+// const dellis = async(req, res, next) => {
+//     // let listing = await Listing.findByIdAndDelete("654b45cc4bbf2b25938a1602");
+//     let listing = await Listing.findOneAndDelete({ price: 234 });
+
+//     console.log(listing);
+//     console.log("deleted successfylly");
+
+// };
+
+// dellis();
