@@ -1,22 +1,88 @@
 <%- layout("/layouts/boilderplate.ejs") %>
 
-    <h1>All Listings</h1>
-    <br>
-    <div class="row row-cols-lg-4 row-cols-md-2 row-cols-sm-1">
+    <STYLE>
+        .filters {
+            display: flex;
+            text-align: center;
+        }
+        
+        .filter {
+            margin-right: 1.3rem;
+            margin-top: 1rem;
+            opacity: .7;
+            font-size: .85rem;
+        }
+        
+        .filter:hover {
+            opacity: 1;
+            cursor: pointer;
+        }
+    </STYLE>
+
+    <div class="filters">
+        <div class="filter">
+            <i class="fa-solid fa-fire"></i>
+            <p>Trending</p>
+        </div>
+        <div class="filter">
+            <i class="fa-solid fa-bed"></i>
+            <p>Farms</p>
+        </div>
+        <div class="filter">
+            <i class="fa-solid fa-building"></i>
+            <p>Iconic Bulidings</p>
+        </div>
+        <div class="filter">
+            <i class="fa-solid fa-umbrella"></i>
+            <p>Beach</p>
+        </div>
+        <div class="filter">
+            <i class="fa-solid fa-train-tram"></i>
+            <p>Trams</p>
+        </div>
+        <div class="filter">
+            <i class="fa-brands fa-fort-awesome-alt"></i>
+            <p>Castle</p>
+        </div>
+        <div class="filter">
+            <i class="fa-solid fa-beer-mug-empty"></i>
+            <p>Wine</p>
+        </div>
+        <div class="filter">
+            <i class="fa-solid fa-bed"></i>
+            <p>Monestrys</p>
+        </div>
+        <div class="filter">
+            <i class="fa-solid fa-house"></i>
+            <p>Hotel</p>
+        </div>
+        <div class="filter">
+            <i class="fa-solid fa-tree-city"></i>
+            <p>Villa</p>
+        </div>
+        <div class="filter">
+            <i class="fa-solid fa-bed"></i>
+            <p>Farm House</p>
+        </div>
+    </div>
+    <!-- <h1>All Listings</h1> -->
+    <div class="row row-cols-lg-4 row-cols-md-2 row-cols-sm-1 mt-1  ">
         <% for (let listing of alllistings){ %>
-            <a href="/listings/show/<%=listing._id%>" class="listing-links">
-                <div class="card col listing-card">
-                    <img src="<%=listing.image%>" class="card-img-top" alt="listing image" style="height: 20rem">
-                    <div class="card-img-overlay"></div>
-                    <div class="card-body">
-                        <p class="card-text">
-                            <b> <%= listing.title %> </b>
-                            <br> &#8377
-                            <%=listing.price.toLocaleString("en-IN") %>/night
-                        </p>
+            <DIV class="mt-1">
+                <a href="/listings/show/<%=listing._id%>" class="listing-links">
+                    <div class="card col listing-card ">
+                        <img src="<%=listing.image%>" class="card-img-top" alt="listing image" style="height: 20rem">
+                        <div class="card-img-overlay"></div>
+                        <div class="card-body">
+                            <p class="card-text">
+                                <b> <%= listing.title %> </b>
+                                <br> &#8377
+                                <%=listing.price.toLocaleString("en-IN") %>/night
+                            </p>
+                        </div>
                     </div>
-                </div>
-            </a>
+                </a>
+            </DIV>
             <% } %>
 
     </div>

@@ -12,9 +12,6 @@ app.use(methodOverride("_method"));
 app.listen(8080, () => {
     console.log("app is listening on port ", 8080);
 });
-app.get("/", (req, res) => {
-    res.send("root directory");
-})
 
 // requiring ejs
 app.set("view engine", "ejs");
@@ -111,6 +108,12 @@ app.use("/listings/:id/review", reviewrouter);
 // api for users.js router
 const userroute = require("./routes/user");
 app.use("/", userroute);
+
+// home route
+app.get("/", (req, res) => {
+    // res.send("root directory");
+    res.redirect("/listings");
+})
 
 
 // custom err handler
