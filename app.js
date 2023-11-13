@@ -8,10 +8,18 @@ app.use(express.urlencoded({ extended: true }));
 var methodOverride = require('method-override');
 app.use(methodOverride("_method"));
 
+// requiring .envfile
+require('dotenv').config()
+
 // app is listening
 app.listen(8080, () => {
     console.log("app is listening on port ", 8080);
 });
+app.get("/", (req, res) => {
+    res.send("root directory");
+})
+const url = "mongodb://127.0.0.1:27017/wanderlust"
+const dburl = process.env.atlasurl;
 
 // requiring ejs
 app.set("view engine", "ejs");
@@ -28,13 +36,26 @@ const mongoose = require("mongoose");
 // const Listing = require("./models/listing");
 // const review = require("./models/review");
 
+// requreiing mongo strore
+const MongoStore = require('connect-mongo');
+
+
 // requiring session 
 const session = require("express-session");
 app.use(session({
-    secret: "supersecret",
+    secret: process.env.secret,
     resave: false,
     saveUninitialized: true,
+    store: MongoStore.create({
+        mongoUrl: dburl,
+        crypto: {
+            secret: process.env.secret,
+        },
+        touchAfter: 24 * 3600,
+    })
 }));
+
+
 // requireing flash 
 const flash = require("connect-flash");
 app.use(flash());
@@ -60,7 +81,7 @@ app.use((req, res, next) => {
 
 // connecting database 
 async function main() {
-    await mongoose.connect("mongodb://127.0.0.1:27017/wanderlust");
+    await mongoose.connect(dburl);
 };
 
 main()
@@ -70,28 +91,8 @@ main()
     });
 
 
-// app functionality
 
-// testing db 
-// app.get("/testlisting", async(req, res) => {
-//     let user1 = new Listing({
-//         title: "my home ",
-//         description: "sweet ohem not ",
-//         price: 100,
-//         image: "",
-//         location: "haryana",
-//         country: "india",
-//     });
-//     await user1.save()
-//         .then(() => console.log(" user 1 data is saved to db "))
-//         .catch((err) => console.log("data is not saved in db err occured"));
-//     res.send("successful testing");
-// })
-
-
-// main code 
-
-
+//
 
 // error handling 
 // requireing custom err class 
@@ -109,12 +110,6 @@ app.use("/listings/:id/review", reviewrouter);
 const userroute = require("./routes/user");
 app.use("/", userroute);
 
-// home route
-app.get("/", (req, res) => {
-    // res.send("root directory");
-    res.redirect("/listings");
-})
-
 
 // custom err handler
 app.use((err, req, res, next) => {
@@ -128,3 +123,42 @@ app.use((err, req, res, next) => {
 app.use((req, res) => {
     res.send("page not found");
 })
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// testing db 
+// app.get("/testlisting", async(req, res) => {
+//     let user1 = new Listing({
+//         title: "my home ",
+//         description: "sweet ohem not ",
+//         price: 100,
+//         image: "",
+//         location: "haryana",
+//         country: "india",
+//     });
+//     await user1.save()
+//         .then(() => console.log(" user 1 data is saved to db "))
+//         .catch((err) => console.log("data is not saved in db err occured"));
+//     res.send("successful testing");
+// })
