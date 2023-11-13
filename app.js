@@ -16,7 +16,7 @@ app.listen(8080, () => {
     console.log("app is listening on port ", 8080);
 });
 app.get("/", (req, res) => {
-    res.send("root directory");
+    // res.send("root directory")
     res.redirect("/listings");
 })
 const url = "mongodb://127.0.0.1:27017/wanderlust"
