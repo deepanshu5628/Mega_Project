@@ -17,6 +17,7 @@ app.listen(8080, () => {
 });
 app.get("/", (req, res) => {
     res.send("root directory");
+    res.redirect("/listings");
 })
 const url = "mongodb://127.0.0.1:27017/wanderlust"
 const dburl = process.env.atlasurl;
